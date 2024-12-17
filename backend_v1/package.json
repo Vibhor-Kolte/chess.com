@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "typescript": "^5.4.5"
+    "@types/ws": "^8.5.13",
+    "typescript": "^5.4.5",
+    "ws": "^8.18.0"
   }
 }

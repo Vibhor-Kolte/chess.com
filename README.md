@@ -9,3 +9,17 @@ Modify tsconfig.json:-
     - Change "rootDir": "./src"  [All Source Code gets picked from this folder]
 
 Add index.ts file in src directory
+
+Add 'ws' dependency:-
+>> npm install ws
+>> npm install @types/ws
+
+Install TypeScript if not installed:-
+>> npm install -g typescript
+
+Compile & Run the code:-
+>> tsc -b                 [compile]
+>> node dist/index.js     [run/start the program]
+
+Use postwoman.io/hopscotch.io to connect to the websocket server
+>> ws://localhost:8080
