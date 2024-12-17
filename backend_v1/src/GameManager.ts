@@ -3,7 +3,7 @@ import { INIT_GAME } from './messages';
 import { Game } from './Games';
 
 export class GameManager {
-  private games: Game[];
+  private games: Game[];  // maintaining global array of all active games
   private pendingUser: WebSocket | null;
   private users: WebSocket[];
 
@@ -30,6 +30,9 @@ export class GameManager {
         if(message.type === INIT_GAME){
             if(this.pendingUser){
                 // Start the game
+                const game = new Game(this.pendingUser, socket);
+                this.games.push(game);
+                this.pendingUser = null;
             }else{
                 this.pendingUser = socket; // user waiting to be connected to someone else
             }
