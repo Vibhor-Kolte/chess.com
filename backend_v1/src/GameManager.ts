@@ -1,5 +1,6 @@
 import { WebSocket } from 'ws';
 import { INIT_GAME } from './messages';
+import { Game } from './Games';
 
 export class GameManager {
   private games: Game[];
