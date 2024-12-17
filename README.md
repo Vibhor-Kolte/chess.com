@@ -9,3 +9,6 @@ Modify tsconfig.json:-
     - Change "rootDir": "./src"  [All Source Code gets picked from this folder]
 
 Add index.ts file in src directory
+
+Add 'ws' dependency:-
+>> npm install ws
