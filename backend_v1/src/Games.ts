@@ -9,6 +9,7 @@ export class Game {
     private startTime = new Date(Date.now());
 
     constructor(player1UserId: WebSocket, player2UserId: WebSocket, startTime?: Date) {
+        console.log("Game Created");
         this.player1UserId = player1UserId;
         this.player2UserId = player2UserId;
         this.board = new Chess();
@@ -16,12 +17,12 @@ export class Game {
             this.startTime = startTime;
         }
 
-        this.player1UserId.emit(JSON.stringify({
+        this.player1UserId.send(JSON.stringify({
             type: INIT_GAME,
             payload: {color: "white"}
         }));
 
-        this.player2UserId.emit(JSON.stringify({
+        this.player2UserId.send(JSON.stringify({
             type: INIT_GAME,
             payload: {color: "black"}
         }));
@@ -33,11 +34,11 @@ export class Game {
     }) {
         // Validations:-
             // Which users move ?
-            if (this.board.moves.length % 2 === 0 && socket !== this.player1UserId) {
+            if (this.board.turn() === 'w' && socket !== this.player1UserId) {
                 return;
             }
         
-            if (this.board.moves.length % 2 === 1 && socket !== this.player2UserId) {
+            if (this.board.turn() === 'b' && socket !== this.player2UserId) {
                 return;
             }
 
@@ -47,7 +48,9 @@ export class Game {
             // Push the move
             try{
                 this.board.move(move);
+                console.log("Move Succeeded");
             }catch(e){
+                console.log("[Invalid Move Detected]",e);
                 return; // Chess.js library will throw error if its an invalid move.
             }
 
@@ -60,16 +63,25 @@ export class Game {
                         winner: this.board.turn() === 'b' ? 'WHITE_WINS': 'BLACK_WINS'
                     }
                 }));
+                this.player2UserId.emit(JSON.stringify({
+                    type: GAME_OVER,
+                    payload: {
+                        winner: this.board.turn() === 'b' ? 'WHITE_WINS': 'BLACK_WINS'
+                    }
+                }));
+                return;
               }
 
         // Send updated board to both the players
-        if(this.board.moves.length % 2 === 0){
-            this.player2UserId.emit(JSON.stringify({
+        if(this.board.moves().length % 2 === 0){
+            console.log("Move sent to player-2");
+            this.player2UserId.send(JSON.stringify({
                 type: MOVE,
                 payload: move
             }));
         }else{
-            this.player1UserId.emit(JSON.stringify({
+            console.log("Move sent to player-1");
+            this.player1UserId.send(JSON.stringify({
                 type: MOVE,
                 payload: move
             }));

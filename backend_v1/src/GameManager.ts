@@ -32,20 +32,21 @@ export class GameManager {
         if(message.type === INIT_GAME){
             if(this.pendingUser){
                 // Start the game
+                console.log("Player2 ready to play");
                 const game = new Game(this.pendingUser, socket);
                 this.games.push(game);
                 this.pendingUser = null;
             }else{
+                console.log("Player1 waiting in Queue");
                 this.pendingUser = socket; // user waiting to be connected to someone else
             }
         }
 
         // msg_event => "move"
         if (message.type === MOVE) {
-            const gameId = message.payload.gameId;
             const game = this.games.find((game) => game.player1UserId === socket || game.player2UserId === socket);
             if (game) {
-              game.makeMove(socket, message.payload.move);
+              game.makeMove(socket, message.move);
             }
         }
     });
