@@ -13,5 +13,18 @@ export class Game {
         if(startTime){
             this.startTime = startTime;
         }
-      }
+    }
+
+    makeMove(socket: WebSocket, move: string) {
+        // Validations:-
+            // Which users move ?
+            // Is it a valid move ?
+        //THEN
+            // Update the board
+            // Push the move
+            // Check if the game is over
+        // Send updated board to both the players
+        
+
+    }
 }

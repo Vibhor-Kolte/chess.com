@@ -1,5 +1,5 @@
 import { WebSocket } from 'ws';
-import { INIT_GAME } from './messages';
+import { INIT_GAME, MOVE } from './messages';
 import { Game } from './Games';
 
 export class GameManager {
@@ -27,6 +27,8 @@ export class GameManager {
     socket.on("message", (data) => {
         // Should use grpc for this
         const message = JSON.parse(data.toString());
+
+        // msg_event => "init_game"
         if(message.type === INIT_GAME){
             if(this.pendingUser){
                 // Start the game
@@ -35,6 +37,15 @@ export class GameManager {
                 this.pendingUser = null;
             }else{
                 this.pendingUser = socket; // user waiting to be connected to someone else
+            }
+        }
+
+        // msg_event => "move"
+        if (message.type === MOVE) {
+            const gameId = message.payload.gameId;
+            const game = this.games.find((game) => game.player1UserId === socket || game.player2UserId === socket);
+            if (game) {
+              game.makeMove(socket, message.payload.move);
             }
         }
     });
