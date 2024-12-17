@@ -23,3 +23,6 @@ Compile & Run the code:-
 
 Use postwoman.io/hopscotch.io to connect to the websocket server
 >> ws://localhost:8080
+
+Install dependency chess.js
+>> npm install chess.js
