@@ -26,3 +26,38 @@ Use postwoman.io/hopscotch.io to connect to the websocket server
 
 Install dependency chess.js
 >> npm install chess.js
+
+Create frontend app[React/Typescript] with below:-
+>> npm create vite@latest
+>> npm install
+
+Add Tailwind CSS
+>> npm install -D tailwindcss postcss autoprefixer
+>> npx tailwindcss init -p
+
+Update tailwind.config.js with below content:-
+>>
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+>>
+
+Add below code to index.css
+>> @tailwind base;
+>> @tailwind components;
+>> @tailwind utilities;
+
+Start react project with below command:-
+>> npm run dev
+
+Install react router
+>> npm i react-router-dom
+
