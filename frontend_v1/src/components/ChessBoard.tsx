@@ -1,24 +1,30 @@
-import { Square, PieceSymbol, Color } from 'chess.js';
+import { Square, PieceSymbol, Color, Chess } from 'chess.js';
 import { useState } from 'react';
 import { MOVE } from '../screens/Game';
 
-export const ChessBoard = ({board, socket}:{
+export const ChessBoard = ({board, setBoard, chess, socket}:{
     board: ({
         square: Square;
         type: PieceSymbol;
         color: Color;
     } | null)[][]
 
+    setBoard: any;
+
+    chess: Chess;
+
     socket: WebSocket | null;
 }) => {
 
     const [from, setFrom] = useState<Square | null>(null);
-    const [to, setTo] = useState<Square | null>(null);
+    //const [to, setTo] = useState<Square | null>(null);
 
     return <div className='text-white-200'>
         {board.map((row, i) => {
             return <div key={i} className='flex'>
                 {row.map((square, j) => {
+                    const squareRepresentation = String.fromCharCode(97 + j) + (8 - i) as Square;
+
                     return <div key={j} 
                         className={`
                             w-16 h-16
@@ -29,18 +35,27 @@ export const ChessBoard = ({board, socket}:{
 
                         onClick={() => {
                             if (!from) {
-                                setFrom(square?.square ?? null);
+                                setFrom(squareRepresentation);
                             } else {
-                                setTo(square?.square || null);
+                                //setTo(squareRepresentation);
                                 if (socket) {
                                     socket.send(JSON.stringify({
                                         type: MOVE,
-                                        move: {
-                                            from,
-                                            to
+                                        payload: {
+                                            move: {
+                                                from,
+                                                to: squareRepresentation
+                                            }
                                         }
                                     }));
                                 }
+                                setFrom(null); 
+                                chess.move({
+                                    from,
+                                    to: squareRepresentation
+                                });
+                                setBoard(chess.board());                           
+                                console.log(from, squareRepresentation);
                             }
                         }}
                         
