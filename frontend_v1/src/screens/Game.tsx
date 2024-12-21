@@ -51,19 +51,22 @@ export const Game = () => {
         <div className='flex justify-center'>
             <div className="pt-8 max-w-screen-lg">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className='flex justify-center'>
+                    <div className='cols-span-4 flex justify-center'>
                         <ChessBoard board={board}/>
                     </div>
-                    <div className='pt-8'>
-                        <div className="mt-6 flex justify-center">
-                            <button 
-                                className="bg-lime-600 hover:bg-blue-600 text-white font-bold py-4 px-48 rounded"
-                                onClick={() => {
-                                    socket.send(JSON.stringify({ type: INIT_GAME }));
-                                }}
-                            >
-                                Play
-                            </button>
+                    
+                    <div className="cols-span-2 bg-stone-700 w-full flex justify-center">
+                        <div className='pt-8'>
+                            <div className="mt-6 flex justify-center">
+                                <button 
+                                    className="bg-lime-600 hover:bg-blue-600 text-white font-bold py-4 px-48 rounded"
+                                    onClick={() => {
+                                        socket.send(JSON.stringify({ type: INIT_GAME }));
+                                    }}
+                                >
+                                    Play
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
