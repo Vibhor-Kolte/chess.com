@@ -12,10 +12,7 @@ export const ChessBoard = ({board}:{
             return <div key={i} className='flex'>
                 {row.map((square, j) => {
                     return <div key={j} 
-                        className={`w-8 h-8 ${square ? 'bg-green-500' : 'bg-green-300'}}`}
-                    >
-                        {square ? square.type : ''}
-                    </div>
+                    className={`w-8 h-8 ${i % 2 === 0 ? j % 2 === 0 ? 'bg-stone-400' : 'bg-stone-200' : j % 2 === 0 ? 'bg-stone-200' : 'bg-stone-400'}`}></div>
                 })}
             </div>
         })}
