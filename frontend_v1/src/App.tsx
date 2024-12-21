@@ -6,7 +6,7 @@ import { Game } from './screens/Game';
 function App() {
   return (
     <>
-      <BrowserRouter basename='/app'>
+      <BrowserRouter basename='/app/v1'>
         <Routes>
           <Route path='/' element={<Landing />}></Route>
           <Route path='/game' element={<Game />}></Route>
