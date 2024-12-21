@@ -61,3 +61,5 @@ Start react project with below command:-
 Install react router
 >> npm i react-router-dom
 
+Install chess.js in frontend project
+>> npm i chess.js

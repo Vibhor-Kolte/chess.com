@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ChessBoard } from "../components/ChessBoard"
 import { useSocket } from "../hooks/useSocket";
+import { Chess} from 'chess.js';
 
 export const INIT_GAME = 'init_game';
 export const MOVE = 'move';
@@ -8,6 +9,9 @@ export const GAME_OVER = 'game_over';
 
 export const Game = () => {
     const socket = useSocket();
+
+    const [chess, _setChess] = useState(new Chess());
+    const [board, setBoard] = useState(chess.board());
 
     useEffect(() => {
         if (!socket) {
@@ -20,9 +24,14 @@ export const Game = () => {
 
             switch (message.type) {
                 case INIT_GAME:
+                    _setChess(new Chess());
+                    setBoard(chess.board());
                     console.log('Game initialized');
                     break;
                 case MOVE:
+                    const move = message.move;
+                    chess.move(move);
+                    setBoard(chess.board());
                     console.log('Move made');
                     break;
                 case GAME_OVER:
@@ -43,7 +52,7 @@ export const Game = () => {
             <div className="pt-8 max-w-screen-lg">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className='flex justify-center'>
-                        <ChessBoard/>
+                        <ChessBoard board={board}/>
                     </div>
                     <div className='pt-8'>
                         <div className="mt-6 flex justify-center">
