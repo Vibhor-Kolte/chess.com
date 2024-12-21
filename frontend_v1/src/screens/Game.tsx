@@ -52,7 +52,7 @@ export const Game = () => {
             <div className="pt-8 max-w-screen-lg">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className='cols-span-4 flex justify-center'>
-                        <ChessBoard board={board}/>
+                        <ChessBoard board={board} socket={socket}/>
                     </div>
                     
                     <div className="cols-span-2 bg-stone-700 w-full flex justify-center">
