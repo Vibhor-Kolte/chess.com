@@ -62,6 +62,13 @@ export const ChessBoard = ({board, setBoard, chess, socket}:{
                         >
                         <div className='w-full h-full flex justify-center items-center'>
                         {square ? square.type: ''}
+                        {/* {square ? 
+                            <img 
+                                src={`/pieces/${square?.color === 'b' ? square?.type : `${square?.type?.toUpperCase} copy`}.png`} 
+                                className='w-4'
+                            /> 
+                            : null
+                        } */}
                         </div>
                     </div>
                 })}
