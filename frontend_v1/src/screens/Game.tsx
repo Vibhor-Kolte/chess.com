@@ -12,6 +12,7 @@ export const Game = () => {
 
     const [chess, _setChess] = useState(new Chess());
     const [board, setBoard] = useState(chess.board());
+    const [started, setStarted] = useState(false);
 
     useEffect(() => {
         if (!socket) {
@@ -24,15 +25,16 @@ export const Game = () => {
 
             switch (message.type) {
                 case INIT_GAME:
-                    _setChess(new Chess());
+                    //_setChess(new Chess());       //BUG
                     setBoard(chess.board());
                     console.log('Game initialized');
+                    setStarted(true);
                     break;
                 case MOVE:
-                    const move = message.move;
+                    const move = message.payload;
                     chess.move(move);
                     setBoard(chess.board());
-                    console.log('Move made');
+                    console.log('Move made:- ', move);
                     break;
                 case GAME_OVER:
                     console.log('Game over');
@@ -52,20 +54,20 @@ export const Game = () => {
             <div className="pt-8 max-w-screen-lg">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className='cols-span-4 flex justify-center'>
-                        <ChessBoard board={board}/>
+                        <ChessBoard board={board} setBoard={setBoard} chess={chess} socket={socket}/>
                     </div>
                     
                     <div className="cols-span-2 bg-stone-700 w-full flex justify-center">
                         <div className='pt-8'>
                             <div className="mt-6 flex justify-center">
-                                <button 
+                                { started && <button 
                                     className="bg-lime-600 hover:bg-blue-600 text-white font-bold py-4 px-48 rounded"
                                     onClick={() => {
                                         socket.send(JSON.stringify({ type: INIT_GAME }));
                                     }}
                                 >
                                     Play
-                                </button>
+                                </button>}
                             </div>
                         </div>
                     </div>

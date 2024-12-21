@@ -46,7 +46,8 @@ export class GameManager {
         if (message.type === MOVE) {
             const game = this.games.find((game) => game.player1UserId === socket || game.player2UserId === socket);
             if (game) {
-              game.makeMove(socket, message.move);
+              game.makeMove(socket, message.payload.move);
+              console.log(message.payload.move);
             }
         }
     });

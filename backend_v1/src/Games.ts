@@ -7,6 +7,7 @@ export class Game {
     public player2UserId: WebSocket;
     public board: Chess;
     private startTime = new Date(Date.now());
+    private moveCount = 0;
 
     constructor(player1UserId: WebSocket, player2UserId: WebSocket, startTime?: Date) {
         console.log("Game Created");
@@ -34,11 +35,15 @@ export class Game {
     }) {
         // Validations:-
             // Which users move ?
-            if (this.board.turn() === 'w' && socket !== this.player1UserId) {
+            // if (this.board.turn() === 'w' && socket !== this.player1UserId) {
+            if (this.moveCount % 2 === 0 && socket !== this.player1UserId) {
+                console.log("[Invalid Move] - Not your turn");
                 return;
             }
         
-            if (this.board.turn() === 'b' && socket !== this.player2UserId) {
+            // if (this.board.turn() === 'b' && socket !== this.player2UserId) {
+            if (this.moveCount % 2 === 1 && socket !== this.player2UserId) {
+                console.log("[Invalid Move] - Not your turn");
                 return;
             }
 
@@ -73,7 +78,8 @@ export class Game {
               }
 
         // Send updated board to both the players
-        if(this.board.moves().length % 2 === 0){
+        // if(this.board.moves().length % 2 === 0){
+        if (this.moveCount % 2 === 0) {
             console.log("Move sent to player-2");
             this.player2UserId.send(JSON.stringify({
                 type: MOVE,
@@ -86,5 +92,6 @@ export class Game {
                 payload: move
             }));
         }
+        this.moveCount++;
     }
 }
